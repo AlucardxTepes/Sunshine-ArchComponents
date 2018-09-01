@@ -16,28 +16,34 @@
 
 package com.example.android.sunshine.ui.detail;
 
+import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
 import android.arch.lifecycle.ViewModel;
 
+import com.example.android.sunshine.data.SunshineRepository;
 import com.example.android.sunshine.data.database.WeatherEntry;
+
+import java.util.Date;
 
 /**
  * {@link ViewModel} for {@link DetailActivity}
  */
 public class DetailActivityViewModel extends ViewModel {
 
-    // Weather forecast the user is looking at
-    private MutableLiveData<WeatherEntry> mWeather;
+  // Weather forecast the user is looking at
+  private LiveData<WeatherEntry> mWeather;
 
-    public DetailActivityViewModel() {
+  private SunshineRepository mRepository;
 
-    }
+  private Date mDate;
 
-    public MutableLiveData<WeatherEntry> getWeather() {
-        return mWeather;
-    }
+  public DetailActivityViewModel(SunshineRepository mRepository, Date mDate) {
+    this.mRepository = mRepository;
+    this.mDate = mDate;
+    mWeather = new MutableLiveData<>();
+  }
 
-    public void setWeather(WeatherEntry weatherEntry) {
-        mWeather.postValue(weatherEntry);
-    }
+  public LiveData<WeatherEntry> getWeather() {
+    return mRepository.getWeatherByDate(mDate);
+  }
 }

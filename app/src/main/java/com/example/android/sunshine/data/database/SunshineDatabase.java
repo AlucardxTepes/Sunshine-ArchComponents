@@ -17,7 +17,7 @@ public abstract class SunshineDatabase extends RoomDatabase {
 
   // Singleton
   public static SunshineDatabase getInstance(Context context) {
-    if (instance != null) {
+    if (instance == null) {
       instance = Room.databaseBuilder(context.getApplicationContext(), SunshineDatabase.class, SunshineDatabase.DATABASE_NAME).build();
     }
     return instance;
